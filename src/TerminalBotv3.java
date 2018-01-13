@@ -22,6 +22,22 @@ public class TerminalBotv3 {
     private final static String ACCOUNT_SID = ""; 
     private final static String AUTH_TOKEN = ""; 
 	public int counter = 0;
+    private static final long MEGABYTE = 1024L * 1024L;
+
+    public static long bytesToMegabytes(long bytes) {
+        return bytes / MEGABYTE;
+    }
+    
+    public static void getMem(Runtime runtime){
+
+        // Get the Java runtime
+
+        // Calculate the used memory
+        long memory = runtime.totalMemory() - runtime.freeMemory();
+        System.out.println("Used memory is bytes: " + memory);
+        System.out.println("Used memory is megabytes: "
+                + bytesToMegabytes(memory));
+    }
 	
 //	Creates a terminal for us to use with our other methods
 	public Process startTerminal() {
@@ -82,19 +98,33 @@ public class TerminalBotv3 {
 	    	}
 	    	s.next();
 	    }
+	    s.close();
     }
+	
+	public void killTerminal(Process newP) throws InterruptedException {
+		String kill = "exit";
+		runProcess(newP, kill);
+	
+		System.out.println("Terminal shutdown");
+	}	
 	
 //	nvidia-smi --query-gpu=utilization.gpu --format=csv
 
 	public static void main(String[] args) throws InterruptedException, AWTException {
 		TerminalBotv3 terminal = new TerminalBotv3();
 
+        Runtime runtime = Runtime.getRuntime();
+        // Run the garbage collector
+
 		while(true) {
 			Process newP = terminal.startTerminal();
 			terminal.runProcess(newP, "cd C:\\Program Files\\NVIDIA Corporation\\NVSMI");
 			terminal.runProcess(newP, "nvidia-smi --query-gpu=utilization.gpu --format=csv");
 			terminal.getOutput(newP);
+			terminal.killTerminal(newP);
 			Thread.sleep(4500);
+			terminal.getMem(runtime);
+	        runtime.gc();
 		}
 		
 	}
