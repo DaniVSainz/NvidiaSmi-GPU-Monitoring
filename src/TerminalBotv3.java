@@ -57,7 +57,7 @@ public class TerminalBotv3 {
 		Message message = Message.creator(
 			    new PhoneNumber("+17867809774"),  // To number
 			    new PhoneNumber("+16028332791"),  // From number
-			    "Hello world!"                    // SMS body
+			    "GPU's DOWN!!!!!!!!!!"                    // SMS body
 			).create();
     } 
 	
@@ -71,9 +71,14 @@ public class TerminalBotv3 {
 //	    }
 //	       s.close();
 //	       System.out.println("**** STREAM CLOSED ****");
-	    for(int i=1; i<45; i++){
+	    for(int i=1; i<26; i++){
 	    	if(i==23 || i==24 ||i==25 ) {
-		    	System.out.println(s.nextInt());
+	    		int util = s.nextInt();
+	    		System.out.println(util);
+	    		if(util <=80) {
+	    			sendMessage();
+	    			Thread.sleep(3000);
+	    		}
 	    	}
 	    	s.next();
 	    }
@@ -83,10 +88,14 @@ public class TerminalBotv3 {
 
 	public static void main(String[] args) throws InterruptedException, AWTException {
 		TerminalBotv3 terminal = new TerminalBotv3();
-//		Process newP = terminal.startTerminal();
-//		terminal.runProcess(newP, "cd C:\\Program Files\\NVIDIA Corporation\\NVSMI");
-//		terminal.runProcess(newP, "nvidia-smi --query-gpu=utilization.gpu --format=csv");
-//		terminal.getOutput(newP);
-		terminal.sendMessage();
+
+		while(true) {
+			Process newP = terminal.startTerminal();
+			terminal.runProcess(newP, "cd C:\\Program Files\\NVIDIA Corporation\\NVSMI");
+			terminal.runProcess(newP, "nvidia-smi --query-gpu=utilization.gpu --format=csv");
+			terminal.getOutput(newP);
+			Thread.sleep(4500);
+		}
+		
 	}
 }
