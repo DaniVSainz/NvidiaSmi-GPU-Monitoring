@@ -19,8 +19,8 @@ import java.util.List;
 //Check the status of our gpu, if the usage of the gpu is X<90% its going to mean the miner is paused.
 //Then use this info to send out post's to a messaging service and blow up my phone with text's so i wake up and fix the issue if its not network related.
 public class TerminalBotv3 {
-    private final static String ACCOUNT_SID = "AC74df0ba13e828fc0b148503f27e5d436"; 
-    private final static String AUTH_TOKEN = "8c93585dd9a7b7409cb3929fdf5b4e2d";  
+    private final static String ACCOUNT_SID = ""; 
+    private final static String AUTH_TOKEN = "";  
 	public int counter = 0;
     private static final long MEGABYTE = 1024L * 1024L;
 
